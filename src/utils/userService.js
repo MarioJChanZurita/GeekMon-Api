@@ -1,12 +1,13 @@
 const User = require('../model/user')
+const crypto = require('crypto')
 
 
 
-
-function register(username, password, cbFunc) {
+function register(username, password, role, cbFunc) {
     const shaPass = crypto.createHash("sha256").update(password).digest("hex");
 
-    User.save({ username, password: shaPass }, cbFunc)
+    const newUser = new User({ username, password: shaPass, role })
+    newUser.save(cbFunc)
 
 }
 

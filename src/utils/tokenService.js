@@ -4,8 +4,10 @@ const Token = require('../model/token')
 
 function saveAccessToken(accessToken, userID, cbFunc) {
 
-    Token.save({ accessToken, userID }, (error, response) => {
-        cbFunc(error)
+    const newToken = new Token({ accessToken, userID })
+
+    newToken.save((err) => {
+        cbFunc(err)
     })
 }
 

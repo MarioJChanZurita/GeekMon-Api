@@ -4,15 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "swagger": "node src/swagger.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "fs": "^0.0.1-security",
     "mongoose": "^6.8.0",
     "node-oauth2-server": "^2.4.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "oauth2-server": "^3.1.1",
+    "pdfkit": "^0.13.0",
+    "qrcode": "^1.5.1",
+    "request": "^2.88.2",
+    "swagger-autogen": "^2.22.0",
+    "swagger-ui-express": "^4.6.0",
+    "util": "^0.12.5"
   }
 }

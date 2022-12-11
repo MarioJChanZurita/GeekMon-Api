@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
 
-let accessTokens = new Schema(
+const accessTokens = mongoose.Schema(
   {
     token: {
       type: String
     },
     user_id: {
-      type: String
+      type: mongoose.Types.ObjectId
     }
   },
   { collection: "token" }
 );
 
-module.exports = mongoose.model("accessTokens", accessTokens);
+module.exports = mongoose.model("Token", accessTokens);
+

@@ -22,5 +22,5 @@ const model = {
     }
   };
   
-  const OAuth2Server = require('oauth2-server');
-  let oauth = new OAuth2Server({model: model});
+const OAuth2Server = require('oauth2-server');
+let oauth = new OAuth2Server({model: model});

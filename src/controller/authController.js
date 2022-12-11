@@ -3,26 +3,29 @@ const userService = require('../utils/userService')
 
 
 const registerUser = async (req, res) => { // register
-  const { username, password } = req.body
+  // #swagger.tags = ['User']
 
-  userService.isValidUser(username, (error, isValidUser) => {
-    if (error || !isValidUser) {
-      console.log(error)
+  const { username, password, role } = req.body
+
+  userService.isValidUser(username, (error, userExists) => {
+    if (error || userExists) {
       const message = error
           ? "Something went wrong!"
           : "This user already exists!";
 
-      sendResponse(res, message, error);
-
-      return;
+      return res
+          .status(400)
+          .json({
+            'message': message
+          })
     }
 
-    userService.register(username, password, (response) => {
-      sendResponse(
-        res,
-        response.error === undefined ? "Success!!" : "Something went wrong!",
-        response.error
-      );
+    userService.register(username, password, role, (err) => {
+      return res
+              .status(err ? 400: 201)
+              .json({
+                'message': err ?  "Something went wrong!" : "Success!!" 
+              })
     })
   })
 };
