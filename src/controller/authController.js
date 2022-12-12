@@ -50,19 +50,18 @@ const getAccessToken = async (req, res) => {
   const { Authorization } = req.headers
   const { username } = req.body
 
-  const user = User.findOne({username})
+  const user = await User.findOne({username: username})
 
   jwt = tokenService.generateJwtToken(Authorization)
 
   return res 
         .status(200)
-        .json({ jwt, userId: user._id })
+        .json({ jwt, userId: user._doc._id })
   /* #swagger.responses[201] = { 
                schema: { jwt: 'string' },
                description: 'Token de acceso' 
         } */
 }
-
 
 
 module.exports = {

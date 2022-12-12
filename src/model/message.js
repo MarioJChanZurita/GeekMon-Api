@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 
 
-const message = mongoose.Schema(
+const message = new mongoose.Schema(
     {
       content: {
         type: String
       },
-      userId: [{ 
+      userId: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User' 
-      }]
+        ref: 'User'
+      }
     },
     { collection: "message"}
   );
