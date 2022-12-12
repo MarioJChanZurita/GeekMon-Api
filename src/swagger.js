@@ -3,7 +3,9 @@ const swaggerAutogen = require('swagger-autogen')()
 const outputFile = './swagger_output.json'
 const endpointsFiles = [
     './view/root.js',
-    './view/api/authentication.js'
+    './view/api/authentication.js',
+    './view/api/message.js',
+    './view/api/pokemon.js',
 ]
 
 
@@ -20,30 +22,34 @@ const doc = {
     produces: ['application/json'],
     tags: [
         {
-            "name": "User",
-            "description": "Endpoints"
+            "name": "Auth",
+            "description": "Endpoints de autenticacion"
+        },
+        {
+            "name": "Message",
+            "description": "Endpoints de administracion de los mensajes del foro"
+        },
+        {
+            "name": "Pokemon",
+            "description": "Endpoints sobre interaccion con los pokemon"
         }
     ],
     securityDefinitions: {
         api_key: {
-            type: "apiKey",
-            name: "api_key",
+            type: "Bearer",
+            name: "Authorization",
             in: "header"
         },
-        petstore_auth: {
-            type: "oauth2",
-            authorizationUrl: "https://petstore.swagger.io/oauth/authorize",
-            flow: "implicit",
-            scopes: {
-                read_pets: "read your pets",
-                write_pets: "modify pets in your account"
-            }
-        }
     },
     definitions: {
         User: {
             username: "Jhon Doe",
-            password: "djnsifnsanli"
+            password: "djnsifnsanli",
+            role: "member"
+        },
+        Token: {
+            userId: "1234",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzA4MDc5MTMsImV4cCI6MTY3MzM5OTkxM30.pr6RclyYIIXo55m3myAuE_Mi_fdQVuDJj3VntZhOxxg"
         }
     }
 }

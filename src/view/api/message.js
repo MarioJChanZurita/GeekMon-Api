@@ -1,14 +1,14 @@
-const express = require('express')
 const messageController = require('../../controller/messageController')
+const { authorize } = require('../../middleware/authMiddleware') 
 
-module.exports = (router, app) => {
+module.exports = (router) => {
     router.route('/')
-        .get(app.oauth.authorise(), messageController.getMessages)
-        .post(messageController.addMessage)
+        .get(authorize, messageController.getMessages)
+        .post(authorize, messageController.addMessage)
         
     router.route('/:id')
-        .delete(messageController.deleteMessage)
-        .put(messageController.updateMessage)
+        .delete(authorize, messageController.deleteMessage)
+        .put(authorize, messageController.updateMessage)
 
     return router
 }

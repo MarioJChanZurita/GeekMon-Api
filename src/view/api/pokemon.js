@@ -1,11 +1,13 @@
 const pokemonController = require('../../controller/pokemonController')
+const { authorize } = require('../../middleware/authMiddleware') 
 
-module.exports = (router, app) => {
+
+module.exports = (router) => {
     router.route('/download')
-        .post(pokemonController.getPokemonFile)
+        .post(authorize, pokemonController.getPokemonFile)
 
     router.route('/qr')
-        .post(pokemonController.getPokemonQR)
+        .post(authorize, pokemonController.getPokemonQR)
 
     return router
 }

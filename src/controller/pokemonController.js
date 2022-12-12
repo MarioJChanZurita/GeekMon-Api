@@ -6,7 +6,10 @@ const pokemonService = require('../utils/pokemonService')
 
 
 const getPokemonFile = (req, res) => {
-
+    /* 
+      #swagger.tags = ['Pokemon']
+      #swagger.description = 'Endpoint para descargar en pdf un pokemon'
+    */
     console.log(req.body)
 
     const { name, image } = req.body
@@ -28,15 +31,8 @@ const getPokemonFile = (req, res) => {
     const imgPath = `${__dirname}/__temp__/pokemon.png`
     pokemonService.downloadImageFromURL(image, imgPath)
 
-    const stream = res.writeHead(200, {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename=${name}.pdf`
-    })
 
-    console.log('res', )
     setTimeout(()=>{
-        doc.on('data', (chunk) => stream.write(chunk))
-        doc.on('end', () => stream.end())
         
         doc.image(imgPath, {
             fit: [300, 300],
@@ -48,42 +44,28 @@ const getPokemonFile = (req, res) => {
             .text(`${name}`, 100, 100);
         doc.end();
 
-        fs.access(filePath, fs.F_OK, (err) => {
-            if (err) {
-                console.error(err)
-                return
-            }
-
-            // res.set('Content-Type', 'application/pdf') 
-            // res.set('x-content-type-options', 'nosniff')
-            // res.contentType("application/pdf");
-            // res.writeHead(200, {
-            //     'Content-Type': 'application/pdf',
-            //     'Content-Disposition': `attachment; filename=${name}.pdf`
-            // })
-            // res.sendFile(filePath, function (err) {
-            //     if (err) {
-            //         console.log(err)
-            //     } else {
-            //         console.log('Sent:', filePath);
-            //     }
-            // });
-
-
-            // const file = fs.createReadStream(filePath);
-            // const stat = fs.statSync(filePath);
-            // res.setHeader('Content-Length', stat.size);
-            // res.setHeader('Content-Type', 'application/pdf');
-            // res.setHeader('Content-Disposition', `attachment; filename=${name}.pdf`);
-            // console.log('res.headers', res)
-            // file.pipe(res);
-
-        })
     }, 2000)
+
+    res.download(filePath, (err) => {
+        if (err) {
+            console.log(err)
+          } else {
+            return 
+          }
+    })
+    /* #swagger.responses[200] = { 
+               schema: { pdf: 'file' },
+               description: 'PDF de un pokemon en especifico' 
+        } */
+
 }
 
 
 const getPokemonQR = (req, res) => {
+    /* 
+    #swagger.tags = ['Pokemon']
+    #swagger.description = 'Endpoint para generar qr de pokemon'
+    */
     const data = JSON.stringify(req.body)
 
     qr.toDataURL(data, function(err, url) {
@@ -95,6 +77,10 @@ const getPokemonQR = (req, res) => {
             .status(200)
             .json({qr: url})
     })
+    /* #swagger.responses[201] = { 
+               schema: { qr: 'string' },
+               description: 'String de qr para ver un pokemon' 
+        } */
 }
 
 

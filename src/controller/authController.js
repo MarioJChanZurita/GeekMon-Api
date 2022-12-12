@@ -1,9 +1,13 @@
 const userService = require('../utils/userService')
+const tokenService = require('../utils/tokenService')
+const User = require('../model/user')
 
 
-
-const registerUser = async (req, res) => { // register
-  // #swagger.tags = ['User']
+const registerUser = async (req, res) => {
+   /* 
+    #swagger.tags = ['Auth']
+    #swagger.description = 'Endpoint para registrar un nuevo usuario'
+   */
 
   const { username, password, role } = req.body
 
@@ -27,6 +31,10 @@ const registerUser = async (req, res) => { // register
                 'message': err ?  "Something went wrong!" : "Success!!" 
               })
     })
+    /* #swagger.responses[201] = { 
+               schema: { message: 'string' },
+               description: 'Mesanje de exito' 
+        } */
   })
 };
 
@@ -34,14 +42,31 @@ const registerUser = async (req, res) => { // register
 const authUser = async (req, res) => { };
 
 
-function sendResponse(res, message, error) {
-  res.status(error !== undefined ? 400 : 200).json({
-      message: message,
-      error: error,
-  });
+const getAccessToken = async (req, res) => {
+  /* 
+  #swagger.tags = ['Auth']
+  #swagger.description = 'Endpoint para registrar un nuevo usuario'
+   */
+  const { Authorization } = req.headers
+  const { username } = req.body
+
+  const user = User.findOne({username})
+
+  jwt = tokenService.generateJwtToken(Authorization)
+
+  return res 
+        .status(200)
+        .json({ jwt, userId: user._id })
+  /* #swagger.responses[201] = { 
+               schema: { jwt: 'string' },
+               description: 'Token de acceso' 
+        } */
 }
+
+
 
 module.exports = {
   registerUser, 
-  authUser
+  authUser,
+  getAccessToken
 }

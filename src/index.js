@@ -1,7 +1,7 @@
 // CORS
 const cors = require('cors')
 // OAuth imports
-const oAuthService = require("./utils/tokenService");
+const oAuthService = require("./utils/authService");
 const oAuth2Server = require("node-oauth2-server");
 // Express
 const express = require("express")
@@ -37,11 +37,9 @@ const authRoutes = require("./view/api/authentication")(
 );
 const messageRoutes = require('./view/api/message')(
   express.Router(),
-  app
 )
 const pokemonRoutes = require('./view/api/pokemon')(
   express.Router(),
-  app
 )
 app.use('/', require('./view/root'))
 app.use('/auth', authRoutes)
@@ -51,7 +49,4 @@ app.use('/pokemon', pokemonRoutes)
 app.listen(PORT, function () {
     console.log("Started application on port %d", PORT)
 });
-
-
-
 

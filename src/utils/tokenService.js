@@ -1,4 +1,5 @@
 const Token = require('../model/token')
+const jwt = require('jsonwebtoken')
 
 
 
@@ -20,9 +21,17 @@ function getUserIDFromBearerToken(bearerToken, cbFunc) {
 
 }
 
+function generateJwtToken (id) {
+    
+    const JWT_SECRET = "secret-jwt-key";
 
+    return jwt.sign({ id }, JWT_SECRET, {
+      expiresIn: '30d',
+    });
+};
 
 module.exports = {
     saveAccessToken,
-    getUserIDFromBearerToken
+    getUserIDFromBearerToken,
+    generateJwtToken
 }

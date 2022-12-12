@@ -7,9 +7,10 @@ const message = mongoose.Schema(
       content: {
         type: String
       },
-      userId: {
-        type: mongoose.Types.ObjectId
-      }
+      userId: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User' 
+      }]
     },
     { collection: "message"}
   );
